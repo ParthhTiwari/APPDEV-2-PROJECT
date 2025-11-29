@@ -1,0 +1,32 @@
+# flask
+# flask-sqlalchemy
+# flask-caching
+
+# pip install celery redis flask-caching
+
+# pip install cros   
+# pip install flask-cors                                                                                            
+
+# pip install redis
+# pip install celery
+#  pip install pyjwt 
+#  pip install flask-cors         
+# npm run dev     
+# cd C:\Program Files\Redis
+# redis-server.exe
+# cd backend
+# venv\Scripts\activate
+# python run.py
+# cd backend
+# celery -A app.celery worker --loglevel=info
+# cd frontend
+# npm install axios
+# npm install vue-router@4
+# npm run dev
+# cd backend
+# celery -A celery_worker worker --loglevel=info
+
+# celery -A celery_worker beat --loglevel=info
+# pip install flask-mail
+
+
