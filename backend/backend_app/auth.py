@@ -9,7 +9,7 @@ from flask import current_app
 
 auth_bp = Blueprint("auth_bp", __name__, url_prefix="/auth")
 
-# Hardcoded Admin Credentials (kept for initial bootstrap; DB-seeded admin preferred)
+# Hardcoded admin credentials (for initial setup)
 ADMIN_EMAIL = "admin@gmail.com"
 ADMIN_PASSWORD = "admin123"
 
@@ -59,7 +59,7 @@ def login():
     user = User.query.filter_by(email=email).first()
     if user:
         if check_password_hash(user.password, password) or user.password == password:
-            # Generate token for authenticated user
+            # Generate token for user
             token = jwt.encode({
                 'user_id': user.id,
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
@@ -73,9 +73,9 @@ def login():
             }), 200
         return jsonify({"error": "invalid credentials"}), 401
 
-    # Fallback: allow hardcoded admin if DB admin not present yet
+        # Check for admin login
     if email == ADMIN_EMAIL and password == ADMIN_PASSWORD:
-        # For admin, we need to find or create the admin user
+        
         admin_user = User.query.filter_by(email=ADMIN_EMAIL).first()
         if not admin_user:
             admin_user = User(

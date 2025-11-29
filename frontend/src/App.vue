@@ -1,4 +1,4 @@
-<!-- filepath: src/App.vue -->
+
 <template>
   <Navbar v-if="showNavbar" />
   
@@ -26,7 +26,7 @@ body {
 }
 
 main {
-  max-width: 1200px;
+  max-width: 2000px;
   margin: 0 auto;
 }
 </style>

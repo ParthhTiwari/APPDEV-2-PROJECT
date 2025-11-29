@@ -15,4 +15,10 @@ class Config:
     CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
 
     # For auto-discovering Celery tasks
-    CELERY_IMPORTS = ["tasks"]   # or ["app.tasks"] depending on your project structure
+    CELERY_IMPORTS = ["tasks"]   
+    MAIL_SERVER = "smtp.gmail.com"
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = "parthtiwari2599@gmail.com"
+    MAIL_PASSWORD = "pass123"   
+    

@@ -1,9 +1,6 @@
 from backend_app.extensions import db
 from datetime import datetime
 
-# -------------------------------------------------
-# USER MODEL
-# -------------------------------------------------
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -13,7 +10,7 @@ class User(db.Model):
 
     is_admin = db.Column(db.Boolean, default=False)
 
-    # A user can have many vehicles
+    # One user has many vehicles
     vehicles = db.relationship(
         "Vehicle",
         backref="user",
@@ -25,9 +22,7 @@ class User(db.Model):
         return f"<User {self.id} - {self.email}>"
 
 
-# -------------------------------------------------
-# PARKING LOT MODEL
-# -------------------------------------------------
+
 class ParkingLot(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -58,9 +53,7 @@ class ParkingLot(db.Model):
         return f"<Lot {self.id} - {self.name}>"
 
 
-# -------------------------------------------------
-# SPOT MODEL
-# -------------------------------------------------
+
 class Spot(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -77,7 +70,7 @@ class Spot(db.Model):
         cascade="all, delete-orphan"
     )
 
-    # Unique constraint: same spot_number नहीं हो सकता एक lot में
+    
     __table_args__ = (
         db.UniqueConstraint('lot_id', 'spot_number', name='unique_spot_per_lot'),
     )
@@ -86,9 +79,7 @@ class Spot(db.Model):
         return f"<Spot {self.id} - #{self.spot_number}>"
 
 
-# -------------------------------------------------
-# VEHICLE MODEL
-# -------------------------------------------------
+
 class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 

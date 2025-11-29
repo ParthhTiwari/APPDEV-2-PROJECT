@@ -15,7 +15,11 @@ admin_bp = Blueprint("admin_bp", __name__, url_prefix="/admin")
 # -------------------------------------------------
 @admin_bp.before_request
 def require_admin():
-    """Simple header-based admin authentication"""
+    # --- CORS preflight ---
+    if request.method == "OPTIONS":
+        return '', 200
+
+    # --- Auth check for other requests ---
     email = request.headers.get("X-Admin-Email")
     pwd = request.headers.get("X-Admin-Password")
 
@@ -236,6 +240,7 @@ def update_lot(lot_id):
 
     data = request.get_json(force=True) or {}
 
+    # 1) Basic fields update
     lot.name = data.get("name", lot.name)
     lot.location = data.get("location", lot.location)
 
@@ -243,7 +248,71 @@ def update_lot(lot_id):
         try:
             lot.price = float(data["price"])
         except:
-            pass
+            return jsonify({"error": "Invalid price"}), 400
+
+    # 2) Max spots update + auto delete logic
+    if "max_spots" in data:
+        try:
+            new_max = int(data["max_spots"])
+        except:
+            return jsonify({"error": "Invalid max_spots"}), 400
+
+        if new_max < 0:
+            return jsonify({"error": "max_spots cannot be negative"}), 400
+
+        current_count = len(lot.spots)
+
+        # -------------------------------
+        # CASE 0: new_max == 0 → Auto Delete Logic
+        # -------------------------------
+        if new_max == 0:
+            occupied = Spot.query.filter(
+                Spot.lot_id == lot_id,
+                Spot.is_available == False
+            ).count()
+
+            if occupied > 0:
+                return jsonify({
+                    "error": "Cannot delete lot: some spots are still occupied"
+                }), 400
+
+            # Delete all spots of this lot
+            Spot.query.filter_by(lot_id=lot_id).delete()
+
+            # Delete the lot itself
+            db.session.delete(lot)
+            db.session.commit()
+
+            return jsonify({"message": "Parking Lot deleted successfully"}), 200
+
+        # -------------------------------
+        # CASE 1: Increase spots
+        # -------------------------------
+        if new_max > current_count:
+            for i in range(current_count + 1, new_max + 1):
+                db.session.add(Spot(spot_number=i, lot_id=lot.id, is_available=True))
+
+        # -------------------------------
+        # CASE 2: Decrease spots
+        # -------------------------------
+        elif new_max < current_count:
+            occupied = Spot.query.filter(
+                Spot.lot_id == lot_id,
+                Spot.spot_number > new_max,
+                Spot.is_available == False
+            ).count()
+
+            if occupied > 0:
+                return jsonify({
+                    "error": "Cannot reduce spots: some higher-numbered spots are occupied"
+                }), 400
+
+            Spot.query.filter(
+                Spot.lot_id == lot_id,
+                Spot.spot_number > new_max
+            ).delete(synchronize_session=False)
+
+        lot.max_spots = new_max
 
     db.session.commit()
     return jsonify({"message": "Parking Lot Updated"}), 200
@@ -322,3 +391,79 @@ def view_parked_vehicles():
         })
 
     return jsonify(out), 200
+
+@admin_bp.get("/lot/<int:lot_id>/spot-status")
+def lot_spot_status(lot_id):
+    lot = ParkingLot.query.get(lot_id)
+    if not lot:
+        return jsonify({"error": "Parking Lot Not Found"}), 404
+
+    spots = []
+    for s in lot.spots:
+        vehicle = Vehicle.query.filter_by(spot_id=s.id, exit_time=None).first()
+        user = User.query.get(vehicle.user_id) if vehicle else None
+        spots.append({
+            "spot_id": s.id,
+            "spot_number": s.spot_number,
+            "is_available": s.is_available,
+            "vehicle_number": vehicle.number_plate if vehicle else None,
+            "user_name": user.name if user else None,
+            "entry_time": vehicle.entry_time.strftime("%Y-%m-%d %H:%M:%S") if vehicle else None,
+        })
+
+    return jsonify({
+        "lot_id": lot.id,
+        "lot_name": lot.name,
+        "spots": spots
+    }), 200
+
+@admin_bp.get("/users")
+def get_all_users():
+    users = User.query.filter_by(is_admin=False).all()
+    data = []
+    for u in users:
+        total_sessions = Vehicle.query.filter_by(user_id=u.id).count()
+        last_vehicle = (
+            Vehicle.query.filter_by(user_id=u.id)
+            .order_by(Vehicle.entry_time.desc())
+            .first()
+        )
+        last_seen = last_vehicle.entry_time.strftime("%Y-%m-%d %H:%M:%S") if last_vehicle else None
+
+        data.append({
+            "id": u.id,
+            "name": u.name,
+            "email": u.email,
+            "total_sessions": total_sessions,
+            "last_activity": last_seen,
+        })
+
+    return jsonify({"users": data}), 200
+
+@admin_bp.get("/summary")
+def admin_summary():
+    lots = ParkingLot.query.all()
+    lot_data = []
+
+    for lot in lots:
+        total_spots = len(lot.spots)
+        available = sum(1 for s in lot.spots if s.is_available)
+        occupied = total_spots - available
+        revenue = 0.0
+
+        vehicles = Vehicle.query.filter_by(lot_id=lot.id).all()
+        for v in vehicles:
+            if v.exit_time and v.entry_time:
+                hours = (v.exit_time - v.entry_time).total_seconds() / 3600
+                revenue += round(round(hours, 2) * lot.price, 2)
+
+        lot_data.append({
+            "lot_id": lot.id,
+            "name": lot.name,
+            "total_spots": total_spots,
+            "occupied_spots": occupied,
+            "available_spots": available,
+            "total_revenue": round(revenue, 2),
+        })
+
+    return jsonify({"lots": lot_data}), 200

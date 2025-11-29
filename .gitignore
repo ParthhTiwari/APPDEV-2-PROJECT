@@ -1,0 +1,50 @@
+# Python venv
+venv/
+backend/venv/
+
+# Vue node modules
+frontend/node_modules/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+
+# SQLite instance folder
+instance/
+
+# Redis dump
+dump.rdb
+backend/dump.rdb
+
+# Celery beat schedule files
+celerybeat-schedule*
+backend/celerybeat-schedule*
+
+# VS Code settings
+.vscode/
+
+# Environment config
+*.env
+
+# Logs
+*.log
+
+# Build output (frontend)
+dist/
+frontend/dist/
+
+# Python bytecode
+*.pyc
+*.pyo
+
+# Local SQLite DB (if any)
+*.sqlite3
+*.db
+*.sqlite
+
+# Folder created by Flask/SQLAlchemy migrations (optional)
+migrations/
+
+# Mac/Windows junk files (safety)
+.DS_Store
+Thumbs.db
