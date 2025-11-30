@@ -216,167 +216,220 @@ export default {
 </script>
 
 <style scoped>
+/* ===========================
+   MAIN BACKGROUND
+   =========================== */
 .dashboard-bg {
   min-height: 100vh;
   width: 100%;
   background: black;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  overflow-y: hidden;
-  padding: 20px;
+  overflow-y: auto;
+  padding: 25px;
   box-sizing: border-box;
+  color: white;
+  border: 1px solid white;
 }
 
+/* ===========================
+   TITLES
+   =========================== */
 .title {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
   color: white;
-  text-shadow: 1px 1px 3px black;
-  width: fit-content;
-  padding: 7px 10px;
+  padding: 10px 14px;
   border: 1px solid white;
-  border-radius: 8px;
+  border-radius: 10px;
   background: black;
+  width: fit-content;
 }
 
 .section-title {
-  font-size: 20px;
+  font-size: 22px;
   margin-top: 25px;
-  width: fit-content;
   padding: 10px 14px;
-  color: white;
   border: 1px solid white;
-  border-radius: 8px;
+  border-radius: 10px;
   background: black;
+  color: white;
+  width: fit-content;
 }
 
+/* ===========================
+   LIST / CARDS
+   =========================== */
 .list-container {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  margin-top: 15px;
+  margin-top: 18px;
 }
 
 .card {
-  background: white;
+  background: rgba(255, 255, 255, 0.05); /* light transparent white */
+  border: 1px solid white;
   border-radius: 12px;
   padding: 18px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  color: white;
 }
 
 .active-card {
-  background: rgba(255, 240, 180, 0.9);
-  border-left: 6px solid #ffb100;
+  border-left: 6px solid white; /* Premium left highlight */
 }
 
 .empty-box {
-  background: rgba(255, 255, 255, 0.8);
-  padding: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 18px;
   border-radius: 10px;
   text-align: center;
   font-weight: 600;
+  color: white;
+  border: 1px solid white;
 }
 
+/* ===========================
+   BUTTONS
+   =========================== */
 .btn {
-  padding: 9px 14px;
-  border-radius: 8px;
+  padding: 10px 15px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
   margin-top: 10px;
   display: inline-block;
   text-decoration: none;
+  border: 1px solid white;
+  transition: 0.3s ease;
 }
 
-.btn.primary {
-  background: black;
-  color: white;
-}
-.btn.warning {
-  background: #ff9800;
-  color: white;
-}
-.btn.secondary {
-  background: black;
-  color: white;
-}
+.btn.primary,
+.btn.warning,
+.btn.secondary,
 .btn.info {
-  background: black;
+  background: transparent;
   color: white;
 }
 
+.btn:hover {
+  background: white;
+  color: black;
+}
+
+/* ===========================
+   ACTION BUTTONS GROUP
+   =========================== */
 .actions {
   position: absolute;
   top: 80px;
   right: 25px;
   display: flex;
-  gap: 8px;
+  gap: 10px;
   border: 1px solid white;
   border-radius: 40px;
-  padding: 8px 12px;
+  padding: 8px 14px;
+  background: black;
 }
 
+/* ===========================
+   MODAL
+   =========================== */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modal-box {
-  background: white;
-  width: 320px;
-  padding: 20px;
+  background: black;
+  width: 330px;
+  padding: 22px;
   border-radius: 12px;
+  border: 1px solid white;
+  color: white;
 }
 
-.error {
-  color: red;
-  margin-top: 10px;
-  font-weight: 600;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+.close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+/* ===========================
+   FEATURE CARD (Reminders)
+   =========================== */
 .feature-card {
   display: flex;
   gap: 15px;
   padding: 20px;
-  border: 1px solid #eee;
   border-radius: 12px;
   margin: 25px 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid white;
+  color: white;
 }
 
 .card-icon {
-  font-size: 28px;
+  font-size: 30px;
 }
 
 .card-content h4 {
-  margin: 0 0 8px 0;
-  color: #333;
+  margin: 0;
+  font-size: 18px;
+  color: white;
 }
 
 .card-content p {
-  margin: 5px 0;
-  color: #666;
+  margin: 6px 0;
+  color: white;
 }
 
 .status-badge {
-  background: #28a745;
+  background: transparent;
+  border: 1px solid white;
   color: white;
-  padding: 4px 12px;
+  padding: 5px 12px;
   border-radius: 20px;
   font-size: 12px;
   display: inline-block;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .tag.green {
-  background: #28a745;
+  background: transparent;
+  border: 1px solid white;
   color: white;
-  padding: 4px 8px;
+  padding: 4px 10px;
   border-radius: 12px;
   font-size: 14px;
+}
+
+/* ===========================
+   ERROR TEXT
+   =========================== */
+.error {
+  color: red;
+  margin-top: 10px;
+  font-weight: 600;
 }
 </style>

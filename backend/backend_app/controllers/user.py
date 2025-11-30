@@ -315,12 +315,8 @@ def monthly_summary(user_id):
         return jsonify({"error": "User Not Found"}), 404
 
     now = datetime.utcnow()
-    if now.month == 1:
-        month = 12
-        year = now.year - 1
-    else:
-        month = now.month - 1
-        year = now.year
+    month = now.month
+    year = now.year
 
     start_date = datetime(year, month, 1)
     if month == 12:

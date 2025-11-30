@@ -175,90 +175,109 @@ export default {
 .export-container {
   display: flex;
   justify-content: center;
-  margin-top: 40px;
-  padding: 20px;
+  padding: 30px;
+  background: black;               /* Full black BG */
+  min-height: 100vh;
 }
 
 .export-card {
   width: 100%;
   max-width: 650px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
-  padding: 20px;
+  background: #0e0e0e;             /* Dark card */
+  border: 1px solid white;         /* White border */
+  border-radius: 16px;
+  padding: 24px;
+  color: white;                    /* White text */
 }
 
+/* ===== Card Header ===== */
 .card-header {
-  background: black;
   padding: 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   text-align: center;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
+  border: 1px solid white;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .card-header h4 {
-  color: white;
   margin: 0;
   font-size: 22px;
+  color: white;
 }
 
+/* ===== Description ===== */
 .desc {
-  color: #666;
+  color: #ccc;
   font-size: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
+/* ===== Buttons ===== */
 .primary-btn {
   width: 100%;
-  background: black;
+  background: transparent;
   color: white;
-  font-size: 18px;
+  font-size: 17px;
   padding: 12px;
-  border: none;
-  border-radius: 8px;
+  border: 1px solid white;
+  border-radius: 10px;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.primary-btn:hover {
+  background: white;
+  color: black;
 }
 
 .primary-btn:disabled {
-  background: #9ccc9c;
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.3);
   cursor: not-allowed;
 }
 
+/* ===== Status Box ===== */
 .status-box {
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .task-id {
-  background: lightgrey;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 15px;
+  background: rgba(255,255,255,0.1);
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 18px;
   font-size: 14px;
+  border: 1px solid white;
 }
 
+/* ===== Progress Bar ===== */
 .progress-bar {
   width: 100%;
   height: 12px;
-  background: #e5e5e5;
+  background: rgba(255,255,255,0.1);
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 15px;
+  border: 1px solid white;
 }
 
 .progress-fill {
   height: 100%;
-  background: #28a745;
+  background: white;
   transition: width 0.4s ease;
 }
 
+/* ===== Badges ===== */
 .badge {
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 6px;
   font-size: 14px;
 }
 
 .warning {
-  background: #ffcc00;
+  background: #ff9800;
+  color: black;
 }
 
 .success {
@@ -267,27 +286,35 @@ export default {
 }
 
 .grey {
-  background: #999;
+  background: grey;
   color: white;
 }
 
+/* ===== Error Box ===== */
 .error-box {
-  background: #ffdddd;
-  color: #b30000;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 15px;
+  background: rgba(255, 0, 0, 0.15);
+  color: #ff6b6b;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 18px;
+  border: 1px solid red;
 }
 
+/* ===== Back Button ===== */
 .back-btn {
   display: inline-block;
-  margin-top: 20px;
+  margin-top: 24px;
   text-decoration: none;
-  color: #444;
+  color: white;
   font-size: 16px;
   border: 1px solid white;
-  padding: 8px 14px;
+  padding: 10px 14px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.7);
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: white;
+  color: black;
 }
 </style>

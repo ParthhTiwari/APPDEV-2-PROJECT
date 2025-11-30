@@ -1,4 +1,5 @@
 <template>
+<div class="bg">
   <div class="history-container">
     <h1 class="page-title">📜 Your Parking History</h1>
 
@@ -39,6 +40,7 @@
       ← Back to Dashboard
     </router-link>
   </div>
+  </div>
 </template>
 
 <script>
@@ -75,69 +77,89 @@ export default {
 <style scoped>
 .history-container {
   padding: 30px;
-  max-width: 900px;
+  max-width: 950px;
   margin: 0 auto;
-  font-family: Arial, sans-serif;
+  background: black;                      /* Full black background */
+  min-height: 100vh;
+  color: white;                           /* White text */
+  border: 1px solid white;                /* Premium border */
+  border-radius: 14px;
 }
 
+/* ===== Page Title ===== */
 .page-title {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #222;
-  font-weight: bold;
+  font-size: 30px;
+  margin-bottom: 25px;
+  color: white;
+  text-align: center;
+  border-bottom: 1px solid white;
+  padding-bottom: 10px;
 }
 
+/* ===== Loader ===== */
 .loader {
   font-size: 18px;
   text-align: center;
   padding: 20px;
+  color: white;
 }
 
+/* ===== No History Message ===== */
 .no-history {
-  background: #f3f3f3;
-  padding: 15px;
-  border-left: 4px solid #666;
-  border-radius: 4px;
-  font-size: 16px;
-  color: #444;
+  background: rgba(255,255,255,0.1);
+  padding: 16px;
+  border-left: 4px solid white;
+  border-radius: 8px;
+  font-size: 17px;
+  color: white;
 }
 
+/* ===== Table ===== */
 .history-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 25px;
+  color: white;
+  border: 1px solid white;
 }
 
 .history-table th,
 .history-table td {
-  border: 1px solid #ddd;
-  padding: 10px 12px;
+  border: 1px solid white;
+  padding: 12px 14px;
   text-align: left;
+  font-size: 15px;
 }
 
 .history-table th {
-  background: #fafafa;
+  background: rgba(255,255,255,0.1);
   font-weight: bold;
-  color: #333;
+  color: white;
 }
 
 .history-table tr:nth-child(even) {
-  background: #fcfcfc;
+  background: rgba(255,255,255,0.05);
 }
 
+/* ===== Back Button ===== */
 .back-btn {
   display: inline-block;
-  margin-top: 25px;
-  padding: 10px 18px;
-  background: #000;
-  color: #fff;
-  border-radius: 4px;
+  margin-top: 30px;
+  padding: 12px 18px;
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  border-radius: 8px;
   text-decoration: none;
-  font-size: 15px;
-  transition: 0.25s ease;
+  font-size: 16px;
+  transition: 0.3s ease;
 }
 
 .back-btn:hover {
-  opacity: 0.8;
+  background: white;
+  color: black;
+}
+.bg{
+  background-color: black;
 }
 </style>

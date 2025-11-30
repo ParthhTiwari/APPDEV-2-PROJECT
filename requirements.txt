@@ -24,9 +24,9 @@
 # npm install vue-router@4
 # npm run dev
 # cd backend
-# celery -A celery_worker worker --loglevel=info
+# python -m celery -A celery_worker worker --loglevel=info --pool=solo
 
-# celery -A celery_worker beat --loglevel=info
+# python -m celery -A celery_worker beat --loglevel=info
 # pip install flask-mail
 
 

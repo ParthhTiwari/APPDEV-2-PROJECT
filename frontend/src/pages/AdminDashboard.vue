@@ -1,232 +1,81 @@
 <template>
   <div class="dashboard-bg">
-    <div style="max-width:1200px; margin:40px auto;">
-      <h1
-        style="
-          font-size:2.1rem;
-          font-weight:bold;
-          margin-bottom:30px;
-          display:flex;
-          align-items:center;
-        "
-      >
-        <span style="font-size:2.4rem; margin-right:12px;">
-          <h1 style="color:white">Admin Dashboard</h1>
-        </span>
-      </h1>
+    <div class="main-container">
+      <h1 class="page-title">Admin Dashboard</h1>
 
-      <div
-        style="
-          display:flex;
-          gap:24px;
-          margin-bottom:38px;
-          flex-wrap:wrap;
-        "
-      >
+      <!-- Stats Cards -->
+      <div class="stats-container">
         <div
           v-for="card in statsCards"
           :key="card.label"
-          :style="`flex:1; min-width:180px; background:${card.bg}; color:white; border-radius:14px; border:1px solid white; padding:22px 0; text-align:center;`"
+          class="stat-card"
         >
-          <div style="font-size:2.4rem; font-weight:800;">
-            {{ card.value }}
-          </div>
-          <div style="opacity:0.9; margin-top:6px;">
-            {{ card.label }}
-          </div>
+          <div class="stat-value">{{ card.value }}</div>
+          <div class="stat-label">{{ card.label }}</div>
         </div>
       </div>
 
-      <div style="margin-bottom:26px;">
-        <router-link
-          to="/admin/create-lot"
-          style="
-            background:white;
-            color:black;
-            padding:11px 24px;
-            text-decoration:none;
-            border-radius:6px;
-            font-weight:600;
-            margin-right:18px;
-            font-size:1rem;
-          "
-        >
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <router-link to="/admin/create-lot" class="btn-white">
           ➕ Create New Lot
         </router-link>
 
-        <router-link
-          to="/admin/lots"
-          style="
-            background:white;
-            color:black;
-            padding:11px 24px;
-            text-decoration:none;
-            border-radius:6px;
-            font-weight:600;
-            font-size:1rem;
-          "
-        >
+        <router-link to="/admin/lots" class="btn-white">
           🏢 Manage Lots
         </router-link>
 
-        <button
-          @click="showUsers = !showUsers"
-          style="
-            background:white;
-            color:black;
-            padding:11px 24px;
-            text-decoration:none;
-            border-radius:6px;
-            font-weight:600;
-            margin-left:18px;
-            font-size:1rem;
-            cursor:pointer;
-          "
-        >
+        <button @click="showUsers = !showUsers" class="btn-white">
           👥 Show Registered Users
         </button>
       </div>
 
-      <div
-        style="
-          background:#fff;
-          border-radius:18px;
-          box-shadow:0 2px 12px rgba(0,0,0,0.09);
-          padding:24px;
-        "
-      >
-        <div
-          style="
-            font-size:1.2rem;
-            font-weight:600;
-            margin-bottom:16px;
-            color:black;
-          "
-        >
-          All Parking Lots
-        </div>
+      <!-- Parking Lots Table -->
+      <div class="table-card">
+        <div class="card-title">All Parking Lots</div>
 
-        <div v-if="loading" style="text-align:center; padding:40px 0;">
-          <span style="font-size:1.4rem;">Loading...</span>
-        </div>
+        <div v-if="loading" class="loading-box">Loading...</div>
 
-        <table v-else style="width:100%; border-collapse:collapse;">
+        <table v-else class="main-table">
           <thead>
-            <tr
-              style="
-                background:#f3f4f6;
-                color:#23272a;
-                font-size:1.07rem;
-              "
-            >
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                ID
-              </th>
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                Name
-              </th>
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                Location
-              </th>
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                Price/Hour
-              </th>
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                Total Spots
-              </th>
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                Available
-              </th>
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                Occupied
-              </th>
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                Actions
-              </th>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Price/Hour</th>
+              <th>Total Spots</th>
+              <th>Available</th>
+              <th>Occupied</th>
+              <th>Actions</th>
             </tr>
           </thead>
+
           <tbody>
-            <tr
-              v-for="lot in lots"
-              :key="lot.lot_id"
-              style="text-align:center; font-size:1rem;"
-            >
-              <td style="padding:8px;">{{ lot.lot_id }}</td>
-              <td style="padding:8px;">{{ lot.name }}</td>
-              <td style="padding:8px;">{{ lot.location }}</td>
-              <td style="padding:8px;">₹{{ lot.price }}</td>
-              <td style="padding:8px;">{{ lot.total_spots }}</td>
-              <td style="padding:8px;">
-                <span
-                  style="
-                    background:black;
-                    color:white;
-                    border-radius:4px;
-                    font-weight:600;
-                    padding:6px 14px;
-                  "
-                >
-                  {{ lot.available_spots }}
-                </span>
+            <tr v-for="lot in lots" :key="lot.lot_id">
+              <td>{{ lot.lot_id }}</td>
+              <td>{{ lot.name }}</td>
+              <td>{{ lot.location }}</td>
+              <td>₹{{ lot.price }}</td>
+              <td>{{ lot.total_spots }}</td>
+
+              <td>
+                <span class="tag-black">{{ lot.available_spots }}</span>
               </td>
-              <td style="padding:8px;">
-                <span
-                  style="
-                    background:black;
-                    color:white;
-                    border-radius:4px;
-                    font-weight:600;
-                    padding:6px 14px;
-                  "
-                >
-                  {{ lot.total_spots - lot.available_spots }}
-                </span>
+
+              <td>
+                <span class="tag-black">{{ lot.total_spots - lot.available_spots }}</span>
               </td>
-              <td style="padding:8px;">
-                <button
-                  @click="openSpotModal(lot.lot_id)"
-                  style="
-                    background:black;
-                    color:white;
-                    border:none;
-                    border-radius:3px;
-                    font-size:0.98em;
-                    padding:7px 15px;
-                    margin-right:6px;
-                    cursor:pointer;
-                  "
-                >
+
+              <td class="action-col">
+                <button @click="openSpotModal(lot.lot_id)" class="btn-black">
                   View Spots
                 </button>
 
-                <router-link
-                  :to="`/admin/lots`"
-                  style="
-                    background:black;
-                    color:white;
-                    border:none;
-                    border-radius:3px;
-                    font-size:0.98em;
-                    padding:7px 15px;
-                    margin-right:6px;
-                    text-decoration:none;
-                  "
-                >
+                <router-link :to="`/admin/lots`" class="btn-black">
                   Edit
                 </router-link>
 
-                <button
-                  @click="deleteLot(lot.lot_id)"
-                  style="
-                    background:black;
-                    color:white;
-                    border:none;
-                    border-radius:3px;
-                    font-size:0.98em;
-                    padding:7px 15px;
-                    cursor:pointer;
-                  "
-                >
+                <button @click="deleteLot(lot.lot_id)" class="btn-black">
                   Delete
                 </button>
               </td>
@@ -234,206 +83,74 @@
           </tbody>
         </table>
 
-        <div
-          v-if="!loading && lots.length === 0"
-          style="
-            color:#6366f1;
-            font-weight:500;
-            padding:35px 0;
-            text-align:center;
-          "
-        >
+        <div v-if="!loading && lots.length === 0" class="empty-msg">
           No parking lots created yet.
         </div>
       </div>
 
-      <div
-        v-if="showUsers"
-        style="
-          background:#fff;
-          border-radius:18px;
-          box-shadow:0 2px 12px rgba(0,0,0,0.09);
-          padding:24px;
-          margin-top:32px;
-        "
-      >
-        <div
-          style="
-            font-size:1.2rem;
-            font-weight:600;
-            margin-bottom:16px;
-            color:black;
-          "
-        >
-          Registered Users
-        </div>
+      <!-- Users Table -->
+      <div v-if="showUsers" class="table-card">
+        <div class="card-title">Registered Users</div>
 
-        <div v-if="users.length === 0">
-          No users registered yet.
-        </div>
-
-        <table v-else style="width:100%; border-collapse:collapse;">
+        <table v-if="users.length > 0" class="main-table">
           <thead>
-            <tr
-              style="
-                background:#f3f4f6;
-                color:#23272a;
-                font-size:1.07rem;
-              "
-            >
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                ID
-              </th>
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                Name
-              </th>
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                Email
-              </th>
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                Sessions
-              </th>
-              <th style="padding:13px 8px; border-bottom:2px solid black;">
-                Last Activity
-              </th>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Sessions</th>
+              <th>Last Activity</th>
             </tr>
           </thead>
+
           <tbody>
-            <tr
-              v-for="u in users"
-              :key="u.id"
-              style="text-align:center; font-size:1rem;"
-            >
-              <td style="padding:8px;">{{ u.id }}</td>
-              <td style="padding:8px;">{{ u.name }}</td>
-              <td style="padding:8px;">{{ u.email }}</td>
-              <td style="padding:8px;">{{ u.total_sessions }}</td>
-              <td style="padding:8px;">{{ u.last_activity || "N/A" }}</td>
+            <tr v-for="u in users" :key="u.id">
+              <td>{{ u.id }}</td>
+              <td>{{ u.name }}</td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.total_sessions }}</td>
+              <td>{{ u.last_activity || "N/A" }}</td>
             </tr>
           </tbody>
         </table>
+
+        <div v-else class="empty-msg">No users registered yet.</div>
       </div>
 
-      <div
-        v-if="showSpotModal"
-        style="
-          position:fixed;
-          inset:0;
-          background:rgba(0,0,0,0.6);
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          z-index:50;
-        "
-      >
-        <div
-          style="
-            background:white;
-            width:90%;
-            max-width:800px;
-            border-radius:14px;
-            padding:20px 22px;
-            max-height:80vh;
-            overflow:auto;
-          "
-        >
-          <div
-            style="
-              display:flex;
-              justify-content:space-between;
-              align-items:center;
-              margin-bottom:12px;
-            "
-          >
-            <h3 style="margin:0; font-size:1.3rem;">
-              Spots – {{ currentLotName }}
-            </h3>
-            <button
-              @click="closeSpotModal"
-              style="
-                border:none;
-                background:#111;
-                color:white;
-                border-radius:50%;
-                width:30px;
-                height:30px;
-                cursor:pointer;
-              "
-            >
-              ✕
-            </button>
+      <!-- Modal -->
+      <div v-if="showSpotModal" class="modal-overlay">
+        <div class="modal-box">
+          <div class="modal-header">
+            <h3>Spots – {{ currentLotName }}</h3>
+            <button @click="closeSpotModal" class="modal-close">✕</button>
           </div>
 
-          <table style="width:100%; border-collapse:collapse;">
+          <table class="modal-table">
             <thead>
-              <tr style="background:#f3f4f6;">
-                <th style="padding:8px; border-bottom:1px solid #ccc;">
-                  Spot
-                </th>
-                <th style="padding:8px; border-bottom:1px solid #ccc;">
-                  Status
-                </th>
-                <th style="padding:8px; border-bottom:1px solid #ccc;">
-                  Vehicle
-                </th>
-                <th style="padding:8px; border-bottom:1px solid #ccc;">
-                  User
-                </th>
-                <th style="padding:8px; border-bottom:1px solid #ccc;">
-                  Entry Time
-                </th>
+              <tr>
+                <th>Spot</th>
+                <th>Status</th>
+                <th>Vehicle</th>
+                <th>User</th>
+                <th>Entry Time</th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="s in spotDetails"
-                :key="s.spot_id"
-                style="text-align:center; font-size:0.95rem;"
-              >
-                <td style="padding:6px 4px;">{{ s.spot_number }}</td>
-                <td style="padding:6px 4px;">
-                  <span
-                    v-if="s.is_available"
-                    style="
-                      background:#16a34a;
-                      color:white;
-                      padding:3px 10px;
-                      border-radius:10px;
-                      font-size:0.8rem;
-                    "
-                  >
-                    Available
-                  </span>
-                  <span
-                    v-else
-                    style="
-                      background:#dc2626;
-                      color:white;
-                      padding:3px 10px;
-                      border-radius:10px;
-                      font-size:0.8rem;
-                    "
-                  >
-                    Occupied
-                  </span>
+              <tr v-for="s in spotDetails" :key="s.spot_id">
+                <td>{{ s.spot_number }}</td>
+                <td>
+                  <span v-if="s.is_available" class="available-tag">Available</span>
+                  <span v-else class="occupied-tag">Occupied</span>
                 </td>
-                <td style="padding:6px 4px;">
-                  {{ s.vehicle_number || "-" }}
-                </td>
-                <td style="padding:6px 4px;">
-                  {{ s.user_name || "-" }}
-                </td>
-                <td style="padding:6px 4px;">
-                  {{ s.entry_time || "-" }}
-                </td>
+
+                <td>{{ s.vehicle_number || "-" }}</td>
+                <td>{{ s.user_name || "-" }}</td>
+                <td>{{ s.entry_time || "-" }}</td>
               </tr>
             </tbody>
           </table>
 
-          <div
-            v-if="spotDetails.length === 0"
-            style="margin-top:12px; text-align:center;"
-          >
+          <div v-if="spotDetails.length === 0" class="empty-msg">
             No spots found for this lot.
           </div>
         </div>
@@ -468,25 +185,17 @@ export default {
 
     const loadData = async () => {
       try {
-        const lotsRes = await adminAPI.getLots(
-          adminEmail,
-          adminPassword
-        );
+        const lotsRes = await adminAPI.getLots(adminEmail, adminPassword);
         lots.value = lotsRes.data.lots || [];
+
         stats.value.totalLots = lots.value.length;
-        stats.value.totalSpots = lots.value.reduce(
-          (s, l) => s + l.total_spots,
-          0
-        );
+        stats.value.totalSpots = lots.value.reduce((s, l) => s + l.total_spots, 0);
         stats.value.occupiedSpots = lots.value.reduce(
           (s, l) => s + (l.total_spots - l.available_spots),
           0
         );
 
-        const usersRes = await adminAPI.users(
-          adminEmail,
-          adminPassword
-        );
+        const usersRes = await adminAPI.users(adminEmail, adminPassword);
         users.value = usersRes.data.users || [];
         stats.value.totalUsers = users.value.length;
       } catch (err) {
@@ -500,40 +209,23 @@ export default {
 
     const deleteLot = async (lotId) => {
       if (!confirm("Are you sure you want to delete this lot?")) return;
+
       try {
         await adminAPI.deleteLot(lotId, adminEmail, adminPassword);
+
         lots.value = lots.value.filter((l) => l.lot_id !== lotId);
-        stats.value.totalLots = lots.value.length;
-        stats.value.totalSpots = lots.value.reduce(
-          (s, l) => s + l.total_spots,
-          0
-        );
-        stats.value.occupiedSpots = lots.value.reduce(
-          (s, l) => s + (l.total_spots - l.available_spots),
-          0
-        );
       } catch (err) {
-        alert(
-          "Failed: " + (err.response?.data?.error || "Unknown")
-        );
+        alert("Failed: " + (err.response?.data?.error || "Unknown"));
       }
     };
 
     const openSpotModal = async (lotId) => {
-      try {
-        const lot = lots.value.find((l) => l.lot_id === lotId);
-        currentLotName.value = lot ? lot.name : `Lot ${lotId}`;
+      const lot = lots.value.find((l) => l.lot_id === lotId);
+      currentLotName.value = lot ? lot.name : `Lot ${lotId}`;
 
-        const res = await adminAPI.lotSpotStatus(
-          lotId,
-          adminEmail,
-          adminPassword
-        );
-        spotDetails.value = res.data.spots || [];
-        showSpotModal.value = true;
-      } catch {
-        alert("Failed to load spots");
-      }
+      const res = await adminAPI.lotSpotStatus(lotId, adminEmail, adminPassword);
+      spotDetails.value = res.data.spots || [];
+      showSpotModal.value = true;
     };
 
     const closeSpotModal = () => {
@@ -542,26 +234,10 @@ export default {
     };
 
     const statsCards = computed(() => [
-      {
-        label: "Total Parking Lots",
-        value: stats.value.totalLots,
-        bg: "black",
-      },
-      {
-        label: "Total Spots",
-        value: stats.value.totalSpots,
-        bg: "black",
-      },
-      {
-        label: "Occupied Spots",
-        value: stats.value.occupiedSpots,
-        bg: "black",
-      },
-      {
-        label: "Registered Users",
-        value: stats.value.totalUsers,
-        bg: "black",
-      },
+      { label: "Total Parking Lots", value: stats.value.totalLots },
+      { label: "Total Spots", value: stats.value.totalSpots },
+      { label: "Occupied Spots", value: stats.value.occupiedSpots },
+      { label: "Registered Users", value: stats.value.totalUsers },
     ]);
 
     return {
@@ -570,8 +246,10 @@ export default {
       stats,
       users,
       showUsers,
-      deleteLot,
+
       statsCards,
+      deleteLot,
+
       showSpotModal,
       spotDetails,
       currentLotName,
@@ -583,9 +261,222 @@ export default {
 </script>
 
 <style scoped>
+/* Main Background */
 .dashboard-bg {
   min-height: 100vh;
-  padding: 40px 0;
   background: black;
+  padding: 40px 0;
 }
+
+/* Container */
+.main-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Title */
+.page-title {
+  color: white;
+  font-size: 2.3rem;
+  font-weight: bold;
+  margin-bottom: 26px;
+}
+
+/* Stats */
+.stats-container {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 35px;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 180px;
+  background: black;
+  border: 1px solid white;
+  border-radius: 14px;
+  padding: 22px 0;
+  text-align: center;
+  color: white;
+  transition: 0.25s;
+}
+
+.stat-card:hover {
+  background: white;
+  color: black;
+}
+
+.stat-value {
+  font-size: 2.4rem;
+  font-weight: 800;
+}
+
+.stat-label {
+  opacity: 0.9;
+  margin-top: 6px;
+}
+
+/* ACTION BUTTONS ROW */
+.action-buttons {
+  display: flex;
+  gap: 18px;          /* <<< GAP FIXED */
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.btn-white,
+.btn-black {
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: 0.25s;
+  display: inline-block;
+}
+
+/* White Button */
+.btn-white {
+  background: white;
+  color: black;
+  border: 1px solid white;
+}
+
+.btn-white:hover {
+  background: black;
+  color: white;
+  border-color: white;
+}
+
+/* Black Button */
+.btn-black {
+  background: black;
+  color: white;
+  border: 1px solid black;
+}
+
+.btn-black:hover {
+  background: white;
+  color: black;
+  border-color: black;
+}
+
+/* Action column buttons spacing */
+.action-col {
+  display: flex;
+  gap: 10px;        /* <<< Buttons inside table also spaced */
+  justify-content: center;
+}
+
+/* Table Card */
+.table-card {
+  background: white;
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 25px;
+}
+
+.card-title {
+  color: black;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+/* Table */
+.main-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.main-table th {
+  padding: 13px 8px;
+  background: #f3f4f6;
+  border-bottom: 2px solid black;
+}
+
+.main-table td {
+  padding: 10px;
+  text-align: center;
+}
+
+.tag-black {
+  background: black;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* Empty Message */
+.empty-msg {
+  text-align: center;
+  padding: 30px;
+  font-weight: 600;
+  color: #6366f1;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-box {
+  background: white;
+  width: 90%;
+  max-width: 800px;
+  border-radius: 14px;
+  padding: 20px;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-close {
+  background: black;
+  color: white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: white;
+  color: black;
+  border: 1px solid black;
+}
+
+/* Tags */
+.available-tag {
+  background: #16a34a;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+}
+
+.occupied-tag {
+  background: #dc2626;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+}
+
 </style>

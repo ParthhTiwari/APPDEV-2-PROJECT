@@ -262,8 +262,7 @@
                   margin-top:3px;
                 "
               >
-                (0 karoge toh lot delete ho sakta hai, backend logic ke
-                hisaab se)
+                
               </div>
             </div>
 
@@ -275,7 +274,8 @@
                 padding:9px 0;
                 border:none;
                 border-radius:10px;
-                background:#16a34a;
+                background:black;
+                transition: 0.25s;
                 color:white;
                 font-weight:600;
                 font-size:0.95rem;
@@ -462,11 +462,203 @@ export default {
 </script>
 
 <style scoped>
+
 .dashboard-bg {
   min-height: 100vh;
   padding: 40px 0;
-  background: url("/images/admin-dashboard.jpg") center/cover fixed;
-  backdrop-filter: blur(3px);
+  background: black;
 }
+
+/* Container */
+.page-layout {
+  max-width: 1200px;
+  margin: 40px auto 30px;
+  display: flex;
+  gap: 24px;
+}
+
+/* Page Title */
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* LOT CARDS */
+.lots-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.lot-card {
+  background: white;
+  width: 260px;
+  border-radius: 16px;
+  border: 1px solid white;
+  overflow: hidden;
+}
+
+/* Card Header */
+.lot-header {
+  background: black;
+  color: white;
+  padding: 14px 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Card Body */
+.lot-body {
+  padding: 14px 16px;
+  font-size: 0.97rem;
+  color: #111827;
+}
+
+/* Black rounded tags */
+.tag-pill {
+  background: black;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* ACTION BUTTONS */
+.card-actions {
+  padding: 10px 16px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-black,
+.btn-white {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: 1px solid black;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+/* Black Button */
+.btn-black {
+  background: black;
+  color: white;
+}
+
+.btn-black:hover {
+  background: white;
+  color: black;
+}
+
+/* White Button */
+.btn-white {
+  background: white;
+  color: black;
+}
+
+.btn-white:hover {
+  background: black;
+  color: white;
+}
+
+/* Back Button */
+.back-btn {
+  display: inline-block;
+  margin-top: 24px;
+  color: black;
+  border: 1px solid white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: white;
+  transition: 0.25s;
+}
+
+.back-btn:hover {
+  background: black;
+  color: white;
+  border-color: black;
+}
+
+/* EDIT FORM CARD */
+.edit-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  padding: 18px 20px;
+}
+
+/* Form input fields */
+.input-box {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  margin-top: 3px;
+}
+
+/* Green Save Button */
+.save-btn {
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 10px;
+  background: black;
+  color: white;
+  font-weight: 600;
+  border: 1px solid black;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.save-btn:hover {
+  background: white;
+  color: black;
+}
+
+/* Gray Cancel Button */
+.cancel-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 0;
+  border-radius: 10px;
+  background: white;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.cancel-btn:hover {
+  background: black;
+  color: white;
+}
+
+/* Success & Error */
+.error-box {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 0.85rem;
+}
+
+.success-box {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 0.85rem;
+}
+
 </style>
   
